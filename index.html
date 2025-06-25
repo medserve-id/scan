@@ -2,8 +2,8 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>Scan Tiket KRK 2025</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Scan Tiket KRK</title>
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
   <style>
@@ -30,10 +30,9 @@
     #reader {
       width: 100%;
       max-width: 320px;
-      height: auto;
       margin: 0 auto 16px auto;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
 
     #result {
@@ -60,5 +59,32 @@
       bottom: 16px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 999;
-      box
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    button:hover {
+      background: #4e4ecf;
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+
+      #reader, button, h1 {
+        display: none !important;
+      }
+
+      #result {
+        box-shadow: none;
+        border: none;
+        font-size: 14pt;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Scan Tiket
