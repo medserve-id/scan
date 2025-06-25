@@ -87,4 +87,32 @@
   </style>
 </head>
 <body>
-  <h1>Scan Tiket
+  <h1>Scan Tiket Registrasi KRK</h1>
+
+  <div id="reader"></div>
+
+  <div id="result">📷 Arahkan kamera ke QR Code peserta...</div>
+
+  <button onclick="window.print()">🖨️ Cetak Tiket</button>
+
+  <script>
+    function onScanSuccess(decodedText) {
+      document.getElementById("result").innerText = decodedText;
+
+      if (typeof AndroidBridge !== "undefined") {
+        AndroidBridge.onQrScanned(decodedText);
+      }
+    }
+
+    const scanner = new Html5Qrcode("reader");
+    scanner.start(
+      { facingMode: "environment" },
+      { fps: 10, qrbox: 250 },
+      onScanSuccess
+    ).catch(err => {
+      document.getElementById("result").innerText = "❌ Gagal mengakses kamera.";
+      console.error(err);
+    });
+  </script>
+</body>
+</html>
