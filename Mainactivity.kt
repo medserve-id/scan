@@ -1,6 +1,12 @@
+package com.example.qrcetak
+
+import android.annotation.SuppressLint
+import android.os.Bundle
+import android.webkit.*
+import androidx.appcompat.app.AppCompatActivity
+
 class MainActivity : AppCompatActivity() {
 
-    lateinit var webView: WebView
     lateinit var bluetoothService: BluetoothService
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -8,21 +14,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bluetoothService = BluetoothService(this)
 
-        webView = WebView(this)
+        val webView = WebView(this)
         webView.settings.javaScriptEnabled = true
-        webView.addJavascriptInterface(JSBridge(), "AndroidBridge")
-        webView.loadUrl("file:///android_asset/index.html")
+        webView.settings.allowFileAccess = true
+        webView.settings.mediaPlaybackRequiresUserGesture = false
+        webView.webChromeClient = WebChromeClient()
+        webView.webViewClient = WebViewClient()
 
-        setContentView(webView)
-    }
-
-    inner class JSBridge {
-        @JavascriptInterface
-        fun onQrScanned(data: String) {
-            runOnUiThread {
+        webView.addJavascriptInterface(object {
+            @JavascriptInterface
+            fun onQrScanned(data: String) {
                 bluetoothService.printText(data)
             }
-        }
+        }, "AndroidBridge")
+
+        webView.loadUrl("file:///android_asset/index.html")
+        setContentView(webView)
     }
 }
-
